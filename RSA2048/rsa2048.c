@@ -195,6 +195,14 @@ bool Decrypt(HCRYPTKEY key, unsigned char **plainText, char *cipherText, unsigne
 
 void CryptoUninit(HCRYPTKEY key, HCRYPTPROV provider)
 {
-	if (key) if (!CryptDestroyKey(key)) printf("Error: %d\n", GetLastError());
-	if (provider) if (!CryptReleaseContext(provider, 0)) printf("Error: %d\n", GetLastError());
+	if (key) 
+		if (!CryptDestroyKey(key)) 
+			printf("Error: %d\n", GetLastError());
+
+	if (provider) 
+		if (!CryptReleaseContext(provider, 0)) 
+			printf("Error: %d\n", GetLastError());
+
+	if (!CryptAcquireContextW(&provider, NULL, NULL, PROV_RSA_FULL, CRYPT_DELETEKEYSET))
+		printf("Error: %d\n", GetLastError());
 }
